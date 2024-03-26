@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { TripleService } from '../core/services/triple.service';
 import { ActivatedRoute } from '@angular/router';
 import Triple from '../core/types/triple';
+import TriplesResponse from '../core/types/triples_response';
 
 @Component({
   selector: 'app-editor',
@@ -9,6 +10,7 @@ import Triple from '../core/types/triple';
   styleUrls: ['./editor.component.scss'],
 })
 export class EditorComponent implements OnInit {
+  objectId = null;
   triples: Triple[] = [];
 
   constructor(
@@ -19,8 +21,11 @@ export class EditorComponent implements OnInit {
   async ngOnInit() {
     this.route.params.subscribe(async (val) => {
       const objectId = this.getObjectId();
-      const triples: Triple[] = await this.tripleService.getTriples(objectId);
-      this.triples = triples;
+      this.objectId = objectId;
+
+      const triplesResponse: TriplesResponse =
+        await this.tripleService.getTriples(objectId);
+      this.triples = triplesResponse.triples;
     });
   }
 
