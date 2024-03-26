@@ -1,14 +1,17 @@
 #!/usr/bin/env python3
 
+from dotenv import load_dotenv
 from fastapi import FastAPI, Response
 from fastapi.middleware.cors import CORSMiddleware
 from typing import List
 
-from triple_loader import TripleLoader
+from triple_loader import TripleLoader, NtFileLoader
 from triple_updater import TripleUpdater
 from types_ import Triple, TripleUpdate
 
-triple_loader: TripleLoader = None
+load_dotenv()
+
+triple_loader: TripleLoader = NtFileLoader()
 triple_updater: TripleUpdater = None
 
 app = FastAPI()
