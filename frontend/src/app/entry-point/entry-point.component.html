@@ -1,1 +1,18 @@
-<p>entry-point works!</p>
+<div class="container" style="padding-top: 20px">
+  <div class="input-group">
+    <span class="input-group-text" id="id-input-description">DDB Entry Id</span>
+    <input
+      type="text"
+      class="form-control"
+      id="id-input"
+      [(ngModel)]="objectId"
+      aria-describedby="id-input-description"
+      placeholder="5DRMX54TUIOYARPWZXJAUSOWYTUJI6Z3"
+    />
+  </div>
+  <div class="d-grid">
+    <button class="btn btn-outline-dark" (click)="onLoadClicked()" type="button" [disabled]="!objectId">
+      Load Triples
+    </button>
+  </div>
+</div>
