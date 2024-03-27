@@ -23,5 +23,8 @@ export class TripleService {
     return lastValueFrom(httpRequest);
   }
 
-  public async updateTriples(tripleUpdates: TripleUpdate[]) {}
+  public async updateTriples(tripleUpdates: TripleUpdate[]) {
+    console.log("update triples called!");
+    console.log(tripleUpdates);
+  }
 }

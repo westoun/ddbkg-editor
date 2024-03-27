@@ -4,7 +4,10 @@
   <p *ngIf="triples.length == 0">No triples could be fetched for object id {{objectId}}</p>
 
   <div *ngFor="let triple of triples; index as i" [class.cs-bg-light]="i % 2 === 0" [class.cs-bg-dark]="i % 2 === 1">
-    <app-triple [triple]="triple"></app-triple>
+    <app-triple [triple]="triple" (tripleUpdateChange)="onTripleUpdateEmitted($event, i)"></app-triple>
   </div>
 
+  <div class="d-grid">
+    <button class="btn btn-outline-success">Submit Changes</button>
+  </div>
 </div>

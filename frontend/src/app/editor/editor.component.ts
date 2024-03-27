@@ -3,6 +3,7 @@ import { TripleService } from '../core/services/triple.service';
 import { ActivatedRoute } from '@angular/router';
 import Triple from '../core/types/triple';
 import TriplesResponse from '../core/types/triples_response';
+import TripleUpdate from '../core/types/triple_update';
 
 @Component({
   selector: 'app-editor',
@@ -12,6 +13,9 @@ import TriplesResponse from '../core/types/triples_response';
 export class EditorComponent implements OnInit {
   objectId = null;
   triples: Triple[] = [];
+  emitUpdateNow: boolean = false;
+
+  tripleUpdates: any = {};
 
   constructor(
     public tripleService: TripleService,
@@ -31,5 +35,25 @@ export class EditorComponent implements OnInit {
 
   private getObjectId() {
     return this.route.snapshot.params['objectId'];
+  }
+
+  onTripleUpdateEmitted(update: TripleUpdate | null, index: number) {
+    this.tripleUpdates[index] = update;
+  }
+
+  onSubmitChangesClicked() {
+    const tripleUpdates: TripleUpdate[] = [];
+
+    for (const key of Object.keys(this.tripleUpdates)) {
+      if (this.tripleUpdates[key]) {
+        tripleUpdates.push(this.tripleUpdates[key]);
+      }
+    }
+
+    const timestamp = new Date().toISOString();
+    tripleUpdates.forEach((update) => {
+      update.timestamp = timestamp;
+    });
+    this.tripleService.updateTriples(tripleUpdates);
   }
 }
