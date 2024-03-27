@@ -16,6 +16,7 @@ import {
 })
 export class TripleComponent implements OnInit {
   isEditable: boolean = false;
+  editMode: boolean = false;
   isValid: boolean = true;
 
   originalTriple: Triple | undefined;
@@ -40,6 +41,25 @@ export class TripleComponent implements OnInit {
   constructor() {}
 
   ngOnInit(): void {}
+
+  onEditClicked() {
+    this.editMode = true;
+  }
+
+  onSaveClicked() {
+    this.editMode = false;
+    this.emitUpdate();
+  }
+
+  onResetClicked() {
+    this.editMode = false;
+
+    if (!this.originalTriple) {
+      return;
+    }
+
+    this.object = removeBrackets(this.originalTriple.object);
+  }
 
   private getEditability(triple: Triple): boolean {
     let predicate = triple.predicate;

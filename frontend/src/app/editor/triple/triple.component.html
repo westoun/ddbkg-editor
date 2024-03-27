@@ -1,9 +1,14 @@
 <div class="row justify-content-between align-items-center">
   <div [class.col-md-3]="showSubject" [class.d-none]="!showSubject" class="cs-badge">{{ subject }}</div>
   <div [class.col-md-3]="showSubject" [class.col-md-4]="!showSubject" class="cs-badge">{{ predicate }}</div>
-  <div [class.col-md-3]="showSubject" [class.col-md-6]="!showSubject" class="cs-badge">{{ object }}</div>
+  <div *ngIf="!editMode" [class.col-md-3]="showSubject" [class.col-md-6]="!showSubject" class="cs-badge">{{ object }}</div>
+  <input *ngIf="editMode" [class.col-md-3]="showSubject" [class.col-md-6]="!showSubject" class="cs-badge" [(ngModel)]="object"/>
   <div class="col-md-1">
-    <button *ngIf="isEditable" class="btn btn-outline-warning">Edit</button>
+    <button *ngIf="isEditable && !editMode" class="btn btn-outline-warning" (click)="onEditClicked()">Edit</button>
+    <div *ngIf="isEditable && editMode" class="btn-group" role="group">
+      <button class="btn btn-outline-success" (click)="onSaveClicked()">Save</button>
+      <button class="btn btn-outline-danger" (click)="onResetClicked()">Reset</button>
+    </div>
   </div>
 </div>
 
