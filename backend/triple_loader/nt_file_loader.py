@@ -34,8 +34,10 @@ class NtFileLoader(TripleLoader):
 
             file_paths = []
             for file_name in os.listdir(path):
-                file_path = f"{path}/{file_name}"
-                file_paths.append(file_path)
+
+                if file_name.endswith(".nt"):
+                    file_path = f"{path}/{file_name}"
+                    file_paths.append(file_path)
 
             return file_paths
 
