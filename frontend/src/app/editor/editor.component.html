@@ -3,12 +3,8 @@
 
   <p *ngIf="triples.length == 0">No triples could be fetched for object id {{objectId}}</p>
 
-  <div *ngFor="let triple of triples; index as i">
-    <div class="row" [class.cs-bg-light]="i % 2 === 0" [class.cs-bg-dark]="i % 2 === 1">
-      <div class="col-md-4">{{triple.subject}}</div>
-      <div class="col-md-4">{{triple.predicate}}</div>
-      <div class="col-md-4">{{triple.object}}</div>
-    </div>
+  <div *ngFor="let triple of triples; index as i" [class.cs-bg-light]="i % 2 === 0" [class.cs-bg-dark]="i % 2 === 1">
+    <app-triple [triple]="triple"></app-triple>
   </div>
 
 </div>

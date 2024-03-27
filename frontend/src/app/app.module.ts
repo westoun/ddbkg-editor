@@ -7,9 +7,10 @@ import { AppComponent } from './app.component';
 import { EntryPointComponent } from './entry-point/entry-point.component';
 import { EditorComponent } from './editor/editor.component';
 import { FormsModule } from '@angular/forms';
+import { TripleComponent } from './editor/triple/triple.component';
 
 @NgModule({
-  declarations: [AppComponent, EntryPointComponent, EditorComponent],
+  declarations: [AppComponent, EntryPointComponent, EditorComponent, TripleComponent],
   imports: [BrowserModule, AppRoutingModule, HttpClientModule, FormsModule],
   providers: [],
   bootstrap: [AppComponent],
