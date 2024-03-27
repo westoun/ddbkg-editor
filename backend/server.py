@@ -3,6 +3,7 @@
 from dotenv import load_dotenv
 from fastapi import FastAPI, Response
 from fastapi.middleware.cors import CORSMiddleware
+from pydantic import BaseModel
 from typing import List
 
 from triple_loader import TripleLoader, NtFileLoader
@@ -13,6 +14,11 @@ load_dotenv()
 
 triple_loader: TripleLoader = NtFileLoader()
 triple_updater: TripleUpdater = JsonlStore()
+
+
+class TripleUpdateBody(BaseModel):
+    triple_updates: List[TripleUpdate]
+
 
 app = FastAPI()
 app.add_middleware(
@@ -39,8 +45,6 @@ def get_triples(object_id: str):
 
 
 @app.post("/update")
-def update_triples(triple_updates: List[TripleUpdate]):
-    # TODO: De-serialize
-
-    triple_updater.update(triple_updates)
+def update_triples(body: TripleUpdateBody):
+    triple_updater.update(body.triple_updates)
     return 200

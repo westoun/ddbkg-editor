@@ -55,7 +55,7 @@ class NtFileLoader(TripleLoader):
                 predicate = components[1]
                 object = components[2]
 
-                if subject == object_id or object == object_id:
+                if subject == object_id:
                     triple = Triple(subject=subject, predicate=predicate, object=object)
                     triples.append(triple)
 

@@ -24,7 +24,15 @@ export class TripleService {
   }
 
   public async updateTriples(tripleUpdates: TripleUpdate[]) {
-    console.log("update triples called!");
-    console.log(tripleUpdates);
+    const httpRequest = this.http.post(environment.tripleUpdatesEndpoint, {
+      triple_updates: tripleUpdates.map(tripleUpdate => {
+        return {
+          original_triple: tripleUpdate.originalTriple,
+          updated_triple: tripleUpdate.updatedTriple,
+          timestamp: tripleUpdate.timestamp
+        }
+      })
+    });
+    return lastValueFrom(httpRequest);
   }
 }

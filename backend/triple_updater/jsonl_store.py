@@ -24,4 +24,4 @@ class JsonlStore(TripleUpdater):
         target_path = f"{self.target_dir}/kg_diff_{uuid4()}.jsonl"
         with open(target_path, "w") as target_file:
             for triple_update in triple_updates:
-                target_file.write(json.dumps(triple_update.__dict__) + "\n")
+                target_file.write(json.dumps(triple_update.to_dict()) + "\n")
