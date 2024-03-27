@@ -1,7 +1,7 @@
-<div class="container">
+<div class="container" *ngIf="triples.length > 0">
   <h2>Object Id: {{objectId}}</h2>
 
-  <p *ngIf="triples.length == 0">No triples could be fetched for object id {{objectId}}</p>
+
 
   <div class="triple-container" *ngFor="let triple of triples; index as i" [class.cs-border-light]="i % 2 === 0" [class.cs-border-dark]="i % 2 === 1">
     <app-triple [triple]="triple" (tripleUpdateChange)="onTripleUpdateEmitted($event, i)"></app-triple>
@@ -10,4 +10,8 @@
   <div class="d-grid">
     <button class="btn btn-outline-success" (click)="onSubmitChangesClicked()">Submit Changes</button>
   </div>
+</div>
+
+<div class="container">
+  <p *ngIf="triples.length == 0">No triples could be fetched for object id '{{objectId}}'</p>
 </div>
