@@ -2,6 +2,12 @@ import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import Triple from 'src/app/core/types/triple';
 import TripleUpdate from 'src/app/core/types/triple_update';
 import PROPERTY_BEHAVIOR_LOOKUP from 'src/assets/property-behavior';
+import {
+  isInBrackets,
+  removeBrackets,
+  addBrackets,
+  isEqualExceptBrackets,
+} from 'src/app/core/utils/string_utils';
 
 @Component({
   selector: 'app-triple',
@@ -17,11 +23,13 @@ export class TripleComponent implements OnInit {
   predicate: string = '';
   object: string = '';
 
+  @Input('showSubject') showSubject: boolean = false;
+
   @Input('triple') set triple_(triple: Triple) {
     this.originalTriple = triple;
-    this.subject = triple.subject;
-    this.predicate = triple.predicate;
-    this.object = triple.object;
+    this.subject = removeBrackets(triple.subject);
+    this.predicate = removeBrackets(triple.predicate);
+    this.object = removeBrackets(triple.object);
     this.isEditable = this.getEditability(triple);
   }
 
@@ -36,8 +44,8 @@ export class TripleComponent implements OnInit {
   private getEditability(triple: Triple): boolean {
     let predicate = triple.predicate;
 
-    if (predicate.startsWith('<') && predicate.endsWith('>')) {
-      predicate = predicate.slice(1, -1);
+    if (isInBrackets(predicate)) {
+      predicate = removeBrackets(predicate);
     }
 
     if (predicate in PROPERTY_BEHAVIOR_LOOKUP) {
@@ -53,16 +61,22 @@ export class TripleComponent implements OnInit {
     }
 
     if (
-      this.subject !== this.originalTriple.subject ||
-      this.predicate !== this.originalTriple.predicate ||
-      this.object !== this.originalTriple.object
+      !isEqualExceptBrackets(this.subject, this.originalTriple.subject) ||
+      !isEqualExceptBrackets(this.predicate, this.originalTriple.predicate) ||
+      !isEqualExceptBrackets(this.object, this.originalTriple.object)
     ) {
       const tripleUpdate: TripleUpdate = {
         originalTriple: this.originalTriple,
         updatedTriple: {
-          subject: this.subject,
-          predicate: this.predicate,
-          object: this.object,
+          subject: isInBrackets(this.originalTriple.subject)
+            ? addBrackets(this.subject)
+            : this.subject,
+          predicate: isInBrackets(this.originalTriple.predicate)
+            ? addBrackets(this.predicate)
+            : this.predicate,
+          object: isInBrackets(this.originalTriple.object)
+            ? addBrackets(this.object)
+            : this.object,
         },
       };
       this.tripleUpdateChange.emit(tripleUpdate);
