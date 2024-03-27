@@ -49,7 +49,7 @@ class NtFileLoader(TripleLoader):
 
         with open(file_path, "r") as nt_file:
             for line in nt_file:
-                components = line.split(" ")
+                components = self._extract_components(line)
 
                 subject = components[0]
                 predicate = components[1]
@@ -60,3 +60,34 @@ class NtFileLoader(TripleLoader):
                     triples.append(triple)
 
         return triples
+
+    def _extract_components(self, line: str) -> List[str]:
+        raw_components = line.split(" ")
+
+        components: List[str] = []
+
+        components_to_merge = []
+        # Handle cases where values are literals with spaces in between.
+        for component in raw_components:
+            quotation_count = component.count('"')
+            escaped_quotation_count = component.count('\\"')
+
+            if (
+                quotation_count - escaped_quotation_count == 1
+                and len(components_to_merge) == 0
+            ):
+                components_to_merge.append(component)
+            elif (
+                quotation_count - escaped_quotation_count == 1
+                and len(components_to_merge) > 0
+            ):
+                components_to_merge.append(component)
+                merged_component = " ".join(components_to_merge)
+                components.append(merged_component)
+                components_to_merge = []
+            elif len(components_to_merge) > 0:
+                components_to_merge.append(component)
+            else:
+                components.append(component)
+
+        return components
