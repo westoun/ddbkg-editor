@@ -6,13 +6,13 @@ from fastapi.middleware.cors import CORSMiddleware
 from typing import List
 
 from triple_loader import TripleLoader, NtFileLoader
-from triple_updater import TripleUpdater
+from triple_updater import TripleUpdater, JsonlStore
 from types_ import Triple, TripleUpdate
 
 load_dotenv()
 
 triple_loader: TripleLoader = NtFileLoader()
-triple_updater: TripleUpdater = None
+triple_updater: TripleUpdater = JsonlStore()
 
 app = FastAPI()
 app.add_middleware(
