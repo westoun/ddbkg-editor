@@ -1,0 +1,39 @@
+version: '3.7'
+services:
+  backend-service:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    container_name: backend-service
+    env_file:
+      - .env
+    networks:
+      - ddbkgnetwork
+    volumes:
+      # Make sure this corresponds to the data path(s) specified
+      # in your .env file.
+      - ./backend/tmp:/app/tmp2
+
+  frontend-service:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile 
+    container_name: frontend-service 
+    networks:
+      - ddbkgnetwork
+
+  reverse-proxy:
+    image: nginx:1.17.10
+    container_name: reverse-proxy
+    depends_on:
+        - backend-service
+        - frontend-service
+    networks:
+      - ddbkgnetwork
+    volumes:
+      - ./reverse_proxy/nginx.conf:/etc/nginx/nginx.conf
+    ports:
+      - 80:80
+
+networks:
+  ddbkgnetwork:
