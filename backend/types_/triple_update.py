@@ -7,3 +7,4 @@ from .triple import Triple
 class TripleUpdate:
     original_triple: Triple
     updated_triple: Triple
+    timestamp: str
