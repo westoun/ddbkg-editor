@@ -3,7 +3,7 @@
 
   <p *ngIf="triples.length == 0">No triples could be fetched for object id {{objectId}}</p>
 
-  <div *ngFor="let triple of triples; index as i" [class.cs-bg-light]="i % 2 === 0" [class.cs-bg-dark]="i % 2 === 1">
+  <div class="triple-container" *ngFor="let triple of triples; index as i" [class.cs-border-light]="i % 2 === 0" [class.cs-border-dark]="i % 2 === 1">
     <app-triple [triple]="triple" (tripleUpdateChange)="onTripleUpdateEmitted($event, i)"></app-triple>
   </div>
 

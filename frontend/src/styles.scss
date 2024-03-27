@@ -1,9 +1,29 @@
 /* You can add global styles to this file, and also import other style files */
 
+$cs-light: lightgrey;
+$cs-dark: rgba(0, 0, 0, 0.4);
+
 .cs-bg-light {
-  background-color: rgba(0, 0, 0, 0.2);
+  background-color: $cs-light;
 }
 
 .cs-bg-dark {
-  background-color: rgba(0, 0, 0, 0.4);
+  background-color: $cs-dark;
+}
+
+.cs-border-light {
+  border-radius: var(--bs-border-radius);
+  border: 1px solid $cs-light;
+}
+
+.cs-border-dark {
+  border-radius: var(--bs-border-radius);
+  border: 1px solid $cs-dark;
+}
+
+.cs-badge {
+  padding: 10px;
+  background-color: $cs-light;
+  border-radius: var(--bs-border-radius);
+  word-wrap: break-word;
 }
