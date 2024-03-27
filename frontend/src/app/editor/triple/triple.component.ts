@@ -1,7 +1,6 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import Triple from 'src/app/core/types/triple';
 import TripleUpdate from 'src/app/core/types/triple_update';
-import KG_PREFIXES_LOOKUP from 'src/assets/kg-prefixes';
 import PROPERTY_BEHAVIOR_LOOKUP from 'src/assets/property-behavior';
 
 @Component({
@@ -11,6 +10,7 @@ import PROPERTY_BEHAVIOR_LOOKUP from 'src/assets/property-behavior';
 })
 export class TripleComponent implements OnInit {
   isEditable: boolean = false;
+  isValid: boolean = true;
 
   originalTriple: Triple | undefined;
   subject: string = '';
@@ -34,7 +34,15 @@ export class TripleComponent implements OnInit {
   ngOnInit(): void {}
 
   private getEditability(triple: Triple): boolean {
-    const predicate = triple.predicate;
+    let predicate = triple.predicate;
+
+    if (predicate.startsWith('<') && predicate.endsWith('>')) {
+      predicate = predicate.slice(1, -1);
+    }
+
+    if (predicate in PROPERTY_BEHAVIOR_LOOKUP) {
+      return PROPERTY_BEHAVIOR_LOOKUP[predicate].editable;
+    }
 
     return false;
   }
