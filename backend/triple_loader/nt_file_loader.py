@@ -6,6 +6,8 @@ from types_ import Triple
 
 
 class NtFileLoader(TripleLoader):
+    """Load triples from .nt files."""
+
     source_path: str
 
     def __init__(self) -> None:
