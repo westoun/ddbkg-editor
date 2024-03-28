@@ -1,17 +1,33 @@
 <div class="container" *ngIf="triples.length > 0">
-  <h2>Object Id: {{objectId}}</h2>
+  <h2>Object Id: {{ objectId }}</h2>
 
-
-
-  <div class="triple-container" *ngFor="let triple of triples; index as i" [class.cs-border-light]="i % 2 === 0" [class.cs-border-dark]="i % 2 === 1">
-    <app-triple [triple]="triple" (tripleUpdateChange)="onTripleUpdateEmitted($event, i)"></app-triple>
+  <div
+    class="triple-container"
+    *ngFor="let triple of triples; index as i"
+    [class.cs-border-light]="i % 2 === 0"
+    [class.cs-border-dark]="i % 2 === 1"
+  >
+    <app-triple
+      (editModeOpen)="unsavedChanges = unsavedChanges + 1"
+      (editModeClose)="unsavedChanges = unsavedChanges - 1"
+      [triple]="triple"
+      (tripleUpdateChange)="onTripleUpdateEmitted($event, i)"
+    ></app-triple>
   </div>
 
   <div class="d-grid">
-    <button class="btn btn-outline-success" (click)="onSubmitChangesClicked()">Submit Changes</button>
+    <button
+      class="btn btn-outline-success"
+      [disabled]="unsavedChanges != 0"
+      (click)="onSubmitChangesClicked()"
+    >
+      Submit Changes <span *ngIf="unsavedChanges != 0">(disabled until all edits are saved or discarded)</span>
+    </button>
   </div>
 </div>
 
 <div class="container">
-  <p *ngIf="triples.length == 0">No triples could be fetched for object id '{{objectId}}'</p>
+  <p *ngIf="triples.length == 0">
+    No triples could be fetched for object id '{{ objectId }}'
+  </p>
 </div>

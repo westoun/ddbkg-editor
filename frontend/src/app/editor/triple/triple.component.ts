@@ -39,17 +39,24 @@ export class TripleComponent implements OnInit {
   tripleUpdateChange: EventEmitter<TripleUpdate | null> =
     new EventEmitter<TripleUpdate | null>();
 
+  @Output('editModeOpen')
+  editModeOpen: EventEmitter<void> = new EventEmitter();
+  @Output('editModeClose')
+  editModeClose: EventEmitter<void> = new EventEmitter();
+
   constructor(private router: Router) {}
 
   ngOnInit(): void {}
 
   onEditClicked() {
     this.editMode = true;
+    this.editModeOpen.emit();
   }
 
   onSaveClicked() {
     this.editMode = false;
     this.emitUpdate();
+    this.editModeClose.emit();
   }
 
   onResetClicked() {
@@ -60,6 +67,7 @@ export class TripleComponent implements OnInit {
     }
 
     this.object = removeBrackets(this.originalTriple.object);
+    this.editModeClose.emit();
   }
 
   private getEditability(triple: Triple): boolean {

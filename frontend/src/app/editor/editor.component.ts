@@ -15,6 +15,8 @@ export class EditorComponent implements OnInit {
   triples: Triple[] = [];
   emitUpdateNow: boolean = false;
 
+  unsavedChanges: number = 0;
+
   tripleUpdates: any = {};
 
   constructor(
