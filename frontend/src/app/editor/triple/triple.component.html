@@ -2,14 +2,14 @@
   <div
     [class.col-md-3]="showSubject"
     [class.d-none]="!showSubject"
-    class="cs-badge"
+    class="cs-badge cs-bg-light"
   >
     {{ subject }}
   </div>
   <div
     [class.col-md-3]="showSubject"
     [class.col-md-4]="!showSubject"
-    class="cs-badge"
+    class="cs-badge cs-bg-light"
   >
     {{ predicate }}
   </div>
@@ -17,7 +17,7 @@
     *ngIf="!editMode"
     [class.col-md-3]="showSubject"
     [class.col-md-6]="!showSubject"
-    class="cs-badge"
+    class="cs-badge cs-bg-light"
   >
     <a
       *ngIf="
@@ -40,7 +40,7 @@
     *ngIf="editMode"
     [class.col-md-3]="showSubject"
     [class.col-md-6]="!showSubject"
-    class="cs-badge"
+    class="cs-badge cs-bg-light"
     [(ngModel)]="object"
   />
   <div class="col-md-1">
