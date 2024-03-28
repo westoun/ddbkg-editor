@@ -6,13 +6,13 @@ from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel
 from typing import List
 
-from triple_loader import TripleLoader, NtFileLoader
+from triple_loader import TripleLoader, LoaderFactory
 from triple_updater import TripleUpdater, JsonlStore
 from types_ import Triple, TripleUpdate
 
 load_dotenv()
 
-triple_loader: TripleLoader = NtFileLoader()
+triple_loader: TripleLoader = LoaderFactory.get_loader()
 triple_updater: TripleUpdater = JsonlStore()
 
 

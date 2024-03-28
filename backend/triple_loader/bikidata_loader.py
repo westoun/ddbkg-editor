@@ -9,6 +9,8 @@ from types_ import Triple
 class BikidataLoader(TripleLoader):
     """Load triples from parquet files created by bikidata."""
 
+    TYPE: str = "bikidata"
+
     triplet_path: str
     hash_map_path: str
 
