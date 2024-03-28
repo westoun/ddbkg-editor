@@ -8,10 +8,24 @@ import { EntryPointComponent } from './entry-point/entry-point.component';
 import { EditorComponent } from './editor/editor.component';
 import { FormsModule } from '@angular/forms';
 import { TripleComponent } from './editor/triple/triple.component';
+import { ToastrModule } from 'ngx-toastr';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 @NgModule({
-  declarations: [AppComponent, EntryPointComponent, EditorComponent, TripleComponent],
-  imports: [BrowserModule, AppRoutingModule, HttpClientModule, FormsModule],
+  declarations: [
+    AppComponent,
+    EntryPointComponent,
+    EditorComponent,
+    TripleComponent,
+  ],
+  imports: [
+    BrowserModule,
+    AppRoutingModule,
+    HttpClientModule,
+    FormsModule,
+    BrowserAnimationsModule,
+    ToastrModule.forRoot(),
+  ],
   providers: [],
   bootstrap: [AppComponent],
 })

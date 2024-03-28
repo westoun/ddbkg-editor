@@ -4,6 +4,7 @@ import { ActivatedRoute } from '@angular/router';
 import Triple from '../core/types/triple';
 import TriplesResponse from '../core/types/triples_response';
 import TripleUpdate from '../core/types/triple_update';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-editor',
@@ -21,17 +22,27 @@ export class EditorComponent implements OnInit {
 
   constructor(
     public tripleService: TripleService,
-    private route: ActivatedRoute
+    private route: ActivatedRoute,
+    private toastr: ToastrService
   ) {}
 
-  async ngOnInit() {
+  ngOnInit() {
     this.route.params.subscribe(async (val) => {
       const objectId = this.getObjectId();
       this.objectId = objectId;
 
-      const triplesResponse: TriplesResponse =
-        await this.tripleService.getTriples(objectId);
-      this.triples = triplesResponse.triples;
+      this.tripleService
+        .getTriples(objectId)
+        .then((triplesResponse: TriplesResponse) => {
+          this.triples = triplesResponse.triples;
+        })
+        .catch((err) => {
+          console.error(err);
+          this.toastr.error(
+            err['message'] + '.\nFor more details open the browser console.',
+            'HTTP Error'
+          );
+        });
     });
   }
 
@@ -56,6 +67,20 @@ export class EditorComponent implements OnInit {
     tripleUpdates.forEach((update) => {
       update.timestamp = timestamp;
     });
-    this.tripleService.updateTriples(tripleUpdates);
+    this.tripleService
+      .updateTriples(tripleUpdates)
+      .then((res) => {
+        this.toastr.success(
+          'Your changes have been successfully sent to the server.',
+          'Success'
+        );
+      })
+      .catch((err) => {
+        console.error(err);
+        this.toastr.error(
+          err['message'] + '.\nFor more details open the browser console.',
+          'HTTP Error'
+        );
+      });
   }
 }
