@@ -8,6 +8,7 @@ import {
   addBrackets,
   isEqualExceptBrackets,
 } from 'src/app/core/utils/string_utils';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-triple',
@@ -38,7 +39,7 @@ export class TripleComponent implements OnInit {
   tripleUpdateChange: EventEmitter<TripleUpdate | null> =
     new EventEmitter<TripleUpdate | null>();
 
-  constructor() {}
+  constructor(private router: Router) {}
 
   ngOnInit(): void {}
 
@@ -103,5 +104,10 @@ export class TripleComponent implements OnInit {
     } else {
       this.tripleUpdateChange.emit(null);
     }
+  }
+
+  onNavigateToClicked(object: string): void {
+    const link = 'editor/' + encodeURIComponent(object);
+    window.open(link, '_blank');
   }
 }
