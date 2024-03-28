@@ -14,6 +14,12 @@ export class EntryPointComponent implements OnInit {
   ngOnInit(): void {}
 
   onLoadClicked() {
-    this.router.navigateByUrl('editor/' + this.objectId);
+    let objectId = this.objectId;
+
+    if (!objectId.includes("http")) {
+      objectId = "http://www.deutsche-digitale-bibliothek.de/item/" + objectId;
+    }
+
+    this.router.navigateByUrl('editor/' + encodeURIComponent(objectId));
   }
 }

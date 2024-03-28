@@ -36,8 +36,8 @@ def read_root():
 
 @app.get("/triples")
 def get_triples(object_id: str):
-    if not "http" in object_id:
-        object_id = f"<http://www.deutsche-digitale-bibliothek.de/item/{object_id}>"
+    if not object_id.startswith("<"):
+        object_id = f"<{object_id}>"
 
     triples: List[Triple] = triple_loader.load(object_id)
 
